@@ -39,7 +39,7 @@
         $inserir_user .= " WHERE user_id = '" . $_POST['userChange'] . "'";
 
         if ($ligacao->query($inserir_user) === TRUE) {
-            $_SESSION['status'] = 'User Details Successfully Altered';
+            $_SESSION['status'] = 'Detalhes do Utilizador alterados com sucesso.';
         } else {
             $_SESSION['status'] = "Error: " . $inserir_user->error;
         }

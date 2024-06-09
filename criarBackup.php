@@ -41,7 +41,7 @@ if ($return_var === 0) {
     $sql = "INSERT INTO backups (filename, backup_date, file_content) VALUES ('" . basename($backupFile) . "', '$createdAt', '$fileContentEscaped')";
 
     if (mysqli_query($ligacao, $sql)) {
-        $_SESSION['status'] = 'Backup information inserted into the database.';
+        $_SESSION['status'] = 'Backup criado com successo.';
     } else {
         $_SESSION['status'] = 'Error: ' . $sql . '<br>' . mysqli_error($ligacao);
     }

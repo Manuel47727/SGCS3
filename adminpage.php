@@ -5,7 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body class = "container mt-3">
+<style>
+        .button-style {
+           border: 1px #0066ff solid;
+           background-color: transparent;
+           border-radius: 5px;
+           outline: none;
+           padding: 8px 20px;
+           margin: 5px;
+           cursor: pointer;
+           text-decoration: none;
+           color: #000;
+           font-size: 16px;
+           font-weight: bold;
+           transition: all 0.3s ease;
+        }
+
+        .button-confirm-style {
+            border: 1px #000 solid;
+           background-color: transparent;
+           border-radius: 5px;
+           outline: none;
+           padding: 8px 20px;
+           margin-top: 1rem;
+           cursor: pointer;
+           text-decoration: none;
+           color: #000;
+           font-size: 16px;
+           font-weight: bold;
+           transition: all 0.3s ease;
+        }
+
+        .button-remove-style {
+            border: 1px red solid;
+           background-color: transparent;
+           border-radius: 5px;
+           outline: none;
+           padding: 8px 20px;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+           cursor: pointer;
+           text-decoration: none;
+           color: #000;
+           font-size: 16px;
+           font-weight: bold;
+           transition: all 0.3s ease;
+        }
+
+        .button-confirm-style:hover {
+            background-color: #0066ff;
+            color: #fff;
+            border-radius: 15px;
+        }
+
+        .card {
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+
+    </style>
+<body class = "container" style = "margin-top: 5rem;">
     <?php 
         session_start();
         if($_SESSION['usertype'] != 'admin') {
@@ -21,27 +79,19 @@
         mysqli_select_db($ligacao,'sgcsDB') or die('Sem tabela');
         
     ?>
-    <h1>SGCS</h1>
-    <a href="index.php" type = "button">
-        <button>Home</button>
-    </a>
-    <a href="components.php" type = "button">
-        <button>Components</button>
-    </a>
-    <a href="settings.php" type = "button">
-        <button>Settings</button>
-    </a>
-    <?php 
-        
-        if ($_SESSION["usertype"] == 'admin') {
-            echo '<a href="adminpage.php" type = "button">
-                    <button>Admin</button>
-                  </a>';
-        }
-    ?>
-    <a href="login.php" type = "button">
-        <button>Log Out</button>
-    </a>
+    <img src="./img/sgcs_logo.png" alt="SGCS Logo" width = "150rem" style = "margin-right: 2rem;">
+
+
+<a href="components.php" class="button-style">Components</a>
+
+<a href="settings.php" class="button-style">Settings</a>
+
+<?php 
+    if ($_SESSION["usertype"] == 'admin') {
+        echo '<a href="adminpage.php" class="button-style">Admin</a>';
+    }
+?>
+<a href="login.php" class="button-style">Log Out</a>
 
     <?php
         if (isset($_SESSION['status'])) {
@@ -53,16 +103,16 @@
         <form action="insertUser.php" method="post" class = "mt-5 card p-4" style = "grid-column: 1; grid-row: 1;">
             <fieldset>
                 <h2 style = "margin-bottom: 2rem;">Inserir Utilizador</h2>
-                <label>Name:</label>
-                <input type="text" placeholder="Name" name="username" class = "mt-2"> <br>
+                <label>Nome:</label>
+                <input type="text" placeholder="Nome" name="username" class = "mt-2 form-control" style = "max-width: 15rem;"> <br>
                 <label>Password:</label>
-                <input type="password" placeholder="Password" name="password" class = "mt-2"> <br>
-                <label>Type:</label>
-                <select name="type" class = "mt-2">
+                <input type="password" placeholder="Password" name="password" class = "mt-2 form-control" style = "max-width: 15rem;"> <br>
+                <label>Tipo:</label>
+                <select name="type" class = "mt-2 form-control" style = "max-width: 15rem;">
                     <option value="developer">Developer</option>
                     <option value="admin">Administrator</option>
                 </select> <br>
-                <button type="submit" class = "mt-4">Insert User</button>
+                <button type="submit" class = "button-confirm-style">Inserir User</button>
             </fieldset>
         </form>
         <br>
@@ -77,7 +127,7 @@
                 $users = getUsers($ligacao);
 
                 if (!empty($users)) {
-                    echo "<select name='userChange'>";
+                    echo "<select name='userChange' class = 'form-control' style = 'max-width: 10rem;'>";
                     foreach ($users as $user) {
                         echo "<option value = '". $user['user_id'] . "'>" . $user['user_id'] . " - " . $user['user_name'] . "</option><br>";
                         echo "<br>";
@@ -90,44 +140,44 @@
             ?>
             
             <div style="display: flex; gap: .5rem; margin-top: 1.5rem; margin-bottom: 0.5rem">
-                <p class="mb-0">Change Name</p>
-                <input type="checkbox" name="nameChange" id="nameChangeCheckbox">
+                <p class="mb-0">Mudar Nome</p>
+                <input type="checkbox" name="nameChange" id="nameChangeCheckbox" >
             </div>
 
             <div class="card px-4 py-2" id="nameChangeSection" style="display: none;">
                 <label>Nome:</label><br>
-                <input type="text" placeholder="Name" name="username" class="mt-2" style="width: 10rem;"><br>
+                <input type="text" placeholder="Nome" name="username" class="mt-2 form-control" style = "max-width: 15rem;"><br>
             </div>
 
             <div style="display: flex; gap: .5rem; margin-top: 1rem; margin-bottom: 0.5rem">
-                <p class="mb-0">Change Password</p>
+                <p class="mb-0">Mudar Password</p>
                 <input type="checkbox" name="passwordChange" id="passwordChangeCheckbox">
             </div>
 
             <div class="card px-4 py-2" id="passwordChangeSection" style="display: none;">
                 <label>Password:</label><br>
-                <input type="password" placeholder="Password" name="password" class="mt-2" style="width: 10rem;"><br>
+                <input type="password" placeholder="Password" name="password" class="mt-2 form-control" style = "max-width: 15rem;" style="width: 10rem;"><br>
             </div>
 
             <div style="display: flex; gap: .5rem; margin-top: 1rem; margin-bottom: 0.5rem">
-                <p class="mb-0">Change Type</p>
+                <p class="mb-0">Mudar Tipo</p>
                 <input type="checkbox" name="typeChange" id="typeChangeCheckbox">
             </div>
 
             <div class="card px-4 py-2" id="typeChangeSection" style="display: none;">
-                <label>Type:</label><br>
-                <select name="type" id="type" class="mt-2" style="width: 10rem;">
+                <label>Tipo:</label><br>
+                <select name="type" id="type" class="mt-2 form-control" style = "max-width: 15rem;">
                     <option value="developer">Developer</option>
                     <option value="admin">Administrator</option>
                 </select><br>
             </div>
 
             <div style="display: flex; gap: .5rem; margin-top: 1rem; margin-bottom: 0.5rem">
-                <p class="mb-0">Deactivate:</p>
+                <p class="mb-0">Desativar:</p>
                 <input type="checkbox" name="isDeactivated" value = "deactivated" id="typeChangeCheckbox">
             </div>
 
-            <button type="submit" class = "mt-4">Alterar Detalhes</button>
+            <button type="submit" class = "button-confirm-style">Alterar Detalhes</button>
         </fieldset>
     </form>
 
@@ -141,7 +191,7 @@
 
                 if (!empty($users)) {
                     echo "<table style='border: 1px solid; border-collapse: separate; border-spacing: 50px 0; text-align: center;'>";
-                    echo "<tr><th>ID</th><th>Name</th><th>Type</th><th>isDeactivated</th></tr>";
+                    echo "<tr><th>ID</th><th>Nome</th><th>Tipo</th><th>estaDesativado</th></tr>";
                     foreach ($users as $user) {
                         echo "<tr>";
                         echo "<td>" . $user['user_id'] . "</td>";

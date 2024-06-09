@@ -47,7 +47,7 @@
     if($user_password == md5($_POST['password'])){
         $_SESSION["usertype"] = getUserType($ligacao, $_POST['username']);
         $_SESSION["userid"] = getUserId($ligacao, $_POST['username']);
-        header("Location: index.php");
+        header("Location: components.php");
     } else {
 
         $_SESSION['status'] = "Username or Password are incorrect";

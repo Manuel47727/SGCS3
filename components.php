@@ -15,36 +15,91 @@
             background-color: #FF7F7F;
             transition: 0.2s;
         }
+        .button-style {
+           border: 1px #0066ff solid;
+           background-color: transparent;
+           border-radius: 5px;
+           outline: none;
+           padding: 8px 20px;
+           margin: 5px;
+           cursor: pointer;
+           text-decoration: none;
+           color: #000;
+           font-size: 16px;
+           font-weight: bold;
+           transition: all 0.3s ease;
+        }
+
+        .button-confirm-style {
+            border: 1px #000 solid;
+           background-color: transparent;
+           border-radius: 5px;
+           outline: none;
+           padding: 8px 20px;
+           margin-top: 1rem;
+           cursor: pointer;
+           text-decoration: none;
+           color: #000;
+           font-size: 16px;
+           font-weight: bold;
+           transition: all 0.3s ease;
+        }
+
+        .button-confirm-style:hover {
+            background-color: #0066ff;
+            color: #fff;
+            border-radius: 15px;
+        }
+
+        .button-remove-style {
+            border: 1px red solid;
+           background-color: transparent;
+           border-radius: 5px;
+           outline: none;
+           padding: 8px 20px;
+           cursor: pointer;
+           text-decoration: none;
+           color: #000;
+           font-size: 16px;
+           font-weight: bold;
+           transition: all 0.3s ease;
+        }
+
+        .button-remove-style:hover {
+            background-color: red;
+            color: #fff;
+            border-radius: 15px;
+        }
+
+        .button-style:hover {
+            color: #0066ff;
+        }
+        
+        .card {
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
     </style>
 </head>
-<body class = "container mb-5 mt-3">
+<body class = "container mb-5" style = "margin-top: 5rem">
     <?php 
         session_start();
         if($_SESSION['usertype'] != 'admin' && $_SESSION['usertype'] != 'developer') {
             header("Location: nopermission.php");
         }
     ?>
-    <h1>SGCS</h1>
-    <a href="index.php" type = "button" class = "buttons">
-        <button>Home</button>
-    </a>
-    <a href="components.php" type = "button">
-        <button>Components</button>
-    </a>
-    <a href="settings.php" type = "button">
-        <button>Settings</button>
-    </a>
-    <?php 
-        
-        if ($_SESSION["usertype"] == 'admin') {
-            echo '<a href="adminpage.php" type = "button">
-                    <button>Admin</button>
-                  </a>';
-        }
-    ?>
-    <a href="login.php" type = "button">
-        <button>Log Out</button>
-    </a>
+    <img src="./img/sgcs_logo.png" alt="SGCS Logo" width = "150rem" style = "margin-right: 2rem;">
+
+
+<a href="components.php" class="button-style">Components</a>
+
+<a href="settings.php" class="button-style">Settings</a>
+
+<?php 
+    if ($_SESSION["usertype"] == 'admin') {
+        echo '<a href="adminpage.php" class="button-style">Admin</a>';
+    }
+?>
+<a href="login.php" class="button-style">Log Out</a>
 
     <?php
         if (isset($_SESSION['status'])) {
@@ -59,14 +114,14 @@
                 <fieldset>
                     <h2>Criar Componente</h2>
                     <label>Nome da Componente:</label>
-                    <input type="text" placeholder="Name" name="componente_nome" class="mt-2"> <br>
-                    <label>Description:</label><br>
-                    <textarea class="mt-2 mb-2" name="description" rows="4" cols="50" style="max-height: 6rem;"></textarea> <br>
+                    <input type="text" placeholder="Nome" name="componente_nome" class="mt-2 form-control" style = "max-width: 15rem;"> <br>
+                    <label>Descrição:</label><br>
+                    <textarea class="mt-2 mb-2 form-control" style = "max-width: 25rem; max-height: 6rem;" name="description" rows="4" cols="50"></textarea> <br>
                     <label>Versão:</label><br>
-                    <input type="text" placeholder="Versao" name="versao" class="mt-2 mb-2"> <br>
-                    <label>Select File:</label><br>
-                    <input type="file" name="file" class="mt-2 mb-2"> <br>
-                    <button type="submit" class="mt-2">Criar Componente</button>
+                    <input type="text" placeholder="Versão" name="versao" class="mt-2  form-control" style = "width: 5rem;"> <br>
+                    <label>Selecionar Ficheiro:</label><br>
+                    <input type="file" name="file" class="mt-2 mb-2 form-control" style = "max-width: 15rem;"> <br>
+                    <button type="submit" class="button-confirm-style">Criar Componente</button>
                 </fieldset>
             </form>
 
@@ -75,13 +130,14 @@
                 <fieldset>
                     <h2>Definir Dependencia</h2>
                     <label>Componente:</label>
-                    <input type="text" placeholder="ID" name="componente_filho" class = "mt-2 mb-2"> <br>
+                    <input type="text" placeholder="ID" name="componente_filho" class = "mt-2 mb-2 form-control" style = "width: 5rem;">
                     <label>Depende de</label><br>
                     <label>Componente:</label>
-                    <input type="text" placeholder="ID" name="componente_pai" class = "mt-2"> <br>
-                    <button type="submit" class = "mt-2">Definir Dependencia</button>
+                    <input type="text" placeholder="ID" name="componente_pai" class = "mt-2 form-control" style = "width: 5rem;"> <br>
+                    <button type="submit" class="button-confirm-style">Definir Dependencia</button>
                 </fieldset>
             </form>
+            
     
     
             <div class = "card p-4" style = "grid-column: 1/10;  grid-row: 2;">
@@ -138,23 +194,17 @@
                                         <div>
                                             <p> Descrição: ". $data['COMP_DESC']. "</p>
                                         </div>
-                                        <div style = 'display: flex; gap: 1.5rem;'>
+                                        <div style = 'display: flex; gap: 1.5rem; margin:1rem 0rem;'>
                                             <div>
-                                                <div style='width:3rem' id = 'versoesButton'>
-                                                    <a href='Versoes.php?comp_id=" . $id . "' class='Versoes'>
-                                                        <button>Versoes</button>
-                                                    </a>
-                                                </div>
+                                                    <a href='Versoes.php?comp_id=" . $id . "' class='button-confirm-style'>Versões</a>
                                             </div>";
                                 if ($data['COMP_COMP_ID'] > 0) {
-                                    echo "<a href='removerDependencia.php?comp_id=" . $id . "' type='button' style='width:11rem'>
-                                            <button class = 'RemoverDependeciaTEST'>Remover Dependencia</button>
-                                          </a>";
+                                    echo "<div>
+                                            <a href='removerDependencia.php?comp_id=" . $id . "' class = 'button-remove-style'>Remover Dependencia</a>
+                                        </div>";
                                 }
                                 echo "<div style = 'position:absolute; right: 1rem;'>
-                                        <a href='removerComponente.php?comp_id=" . $id . "'>
-                                            <button>Remover Componente</button>
-                                        </a>
+                                        <a href='removerComponente.php?comp_id=" . $id . "'  class='button-remove-style'>Remover Componente</a>
                                       </div>";
                                 
                                 if ($level > $prelevel) {

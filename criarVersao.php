@@ -25,9 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"]) && isset($_PO
     if ($stmt) {
         $stmt->bind_param("sssi", $versionNumber, $createdAt, $file_content, $component_id);
 
-        $stmt->execute()
+        $stmt->execute();
         $stmt->close();
     }
+
+    $_SESSION['status'] = 'Versão Adicionada com successo.';
 }
 
 header("Location: {$_SERVER['HTTP_REFERER']}");

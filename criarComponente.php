@@ -16,6 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"])) {
     $inserir_componente = "INSERT INTO componente(COMP_NOME, COMP_DESC, COMP_DATE, COMP_user_id) VALUES('" . $_POST['componente_nome'] . "','" . $_POST['description'] . "','" . date('Y/m/d H:i:s') . "','" . $_SESSION["userid"] . "')";
 
     if ($ligacao->query($inserir_componente) === TRUE) {
+        $_SESSION['status'] = 'Componente Adicionada';
+
         $componente_id = $ligacao->insert_id;
 
         $versionNumber = $_POST['versao'];
@@ -33,11 +35,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["file"])) {
 
             $stmt->send_long_data(2, $file_content);
 
-            $stmt->execute()
+            $stmt->execute();
             $stmt->close();
         }
+
+        } else {
+            $_SESSION['status'] = "Error: " . $inserir_comp->error;
+        }
     }
-}
 
 header("Location: components.php");
 ?>

@@ -6,35 +6,95 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Document</title>
 </head>
-<body class="container mt-3">
+<style>
+    .button-style {
+           border: 1px #0066ff solid;
+           background-color: transparent;
+           border-radius: 5px;
+           outline: none;
+           padding: 8px 20px;
+           margin: 5px;
+           cursor: pointer;
+           text-decoration: none;
+           color: #000;
+           font-size: 16px;
+           font-weight: bold;
+           transition: all 0.3s ease;
+        }
+
+        .button-confirm-style {
+            border: 1px #000 solid;
+           background-color: transparent;
+           border-radius: 5px;
+           outline: none;
+           padding: 8px 20px;
+           margin-top: 1rem;
+           cursor: pointer;
+           text-decoration: none;
+           color: #000;
+           font-size: 16px;
+           font-weight: bold;
+           transition: all 0.3s ease;
+        }
+
+        .button-remove-style {
+            border: 1px red solid;
+           background-color: transparent;
+           border-radius: 5px;
+           outline: none;
+           padding: 8px 20px;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+           cursor: pointer;
+           text-decoration: none;
+           color: #000;
+           font-size: 16px;
+           font-weight: bold;
+           transition: all 0.3s ease;
+        }
+
+        .button-confirm-style:hover {
+            background-color: #0066ff;
+            color: #fff;
+            border-radius: 15px;
+        }
+
+        .card {
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+
+        .button-style:hover {
+            color: #0066ff;
+        }
+</style>
+<body class="container" style = "margin-top: 5rem">
     <?php 
         session_start();
         if ($_SESSION['usertype'] != 'admin' && $_SESSION['usertype'] != 'developer') {
             header("Location: nopermission.php");
         }
     ?>
-    <h1>SGCS</h1>
-    <nav class="mb-5">
-        <a href="index.php" type="button">
-            <button>Home</button>
-        </a>
-        <a href="components.php" type="button">
-            <button>Components</button>
-        </a>
-        <a href="settings.php" type="button">
-            <button>Settings</button>
-        </a>
-        <?php 
-            if ($_SESSION["usertype"] == 'admin') {
-                echo '<a href="adminpage.php" type="button">
-                        <button>Admin</button>
-                    </a>';
-            }
-        ?>
-        <a href="login.php" type="button">
-            <button>Log Out</button>
-        </a>
+<img src="./img/sgcs_logo.png" alt="SGCS Logo" width = "150rem" style = "margin-right: 2rem;">
+
+
+<a href="components.php" class="button-style">Components</a>
+
+<a href="settings.php" class="button-style">Settings</a>
+
+<?php 
+    if ($_SESSION["usertype"] == 'admin') {
+        echo '<a href="adminpage.php" class="button-style">Admin</a>';
+    }
+?>
+<a href="login.php" class="button-style">Log Out</a>
     </nav>
+
+    <?php
+        if (isset($_SESSION['status'])) {
+            echo '<div class="alert alert-info mt-4">' . $_SESSION['status'] . '</div>';
+            unset($_SESSION['status']);
+        }
+    ?>
 
     <?php
     error_reporting(E_ALL);
@@ -48,10 +108,10 @@
                 <div class="card p-4">
                     <h4 class="mb-3">Criar Nova Versao</h4>
                     <form action="criarVersao.php?comp_id='. $component_id . '" method="POST" enctype="multipart/form-data">
-                        <input type="text" name="versao" placeholder="Versão" class="mb-4" style="width: 10rem;"> <br>
+                        <input type="text" name="versao" placeholder="Versão" class="mb-4 form-control" style = "max-width: 10rem;"> <br>
                         <label>Select File:</label><br>
-                        <input type="file" name="file" class="mt-2 mb-4"> <br>
-                        <button type="submit" class="mb-3">Criar Nova Versao</button>
+                        <input type="file" name="file" class="mt-2 form-control" style = "max-width: 15rem;"> <br>
+                        <button type="submit" class="button-confirm-style">Criar Nova Versao</button>
                     </form>
                 </div>
             </div>';
@@ -65,8 +125,8 @@
         $result = $ligacao->query($sql);
 
         if ($result->num_rows > 0) {
-            echo "<table style='border: 1px solid; border-collapse: separate; border-spacing: 50px 0; margin-bottom:3rem; margin-top:3rem;'>";
-            echo "<tr><th>ID Versao</th><th>Created At</th><th>Download</th></tr>";
+            echo "<table style='border: 1px solid; border-collapse: separate; border-spacing: 50px 0; margin-bottom:3rem; text-align: center;margin-top:3rem;'>";
+            echo "<tr><th>ID Versao</th><th>Criado</th><th>Download</th></tr>";
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
                 echo "<td>" . $row['VER_VERSAO'] . "</td>";

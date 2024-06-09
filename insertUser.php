@@ -26,7 +26,7 @@
 
             $inserir_user = "INSERT INTO users(user_name, user_password, user_type, user_isDeactivated) VALUES('".$_POST['username']."','".md5($_POST['password'])."','".$_POST['type']."','".'0'."')";
             if ($ligacao->query($inserir_user) === TRUE) {
-                $_SESSION['status'] = 'User Details Successfully Altered';
+                $_SESSION['status'] = 'Utilizador Inserido com sucesso';
             } else {
                 $_SESSION['status'] = "Error: " . $inserir_user->error;
             }
